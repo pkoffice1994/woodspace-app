@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You — WoodSpace</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0d0c0a; color: #f5f0e8; font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .bg-lines { position: fixed; inset: 0; pointer-events: none; background-image: repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(201,169,110,0.03) 80px, rgba(201,169,110,0.03) 81px); }
+    .card { text-align: center; padding: 4rem 3rem; max-width: 480px; position: relative; animation: fadeUp 0.9s ease forwards; opacity: 0; transform: translateY(30px); }
+    .checkmark { width: 72px; height: 72px; border: 1px solid #c9a96e; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 2rem; animation: pop 0.5s ease 0.5s both; }
+    .eyebrow { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: #c9a96e; margin-bottom: 1rem; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; margin-bottom: 1rem; line-height: 1.2; }
+    h1 em { font-style: italic; color: #c9a96e; }
+    p { font-size: 0.88rem; opacity: 0.55; line-height: 1.8; margin-bottom: 2.5rem; }
+    .divider { width: 60px; height: 1px; background: linear-gradient(to right, transparent, #c9a96e, transparent); margin: 1.5rem auto; }
+    .steps { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; text-align: left; }
+    .step { display: flex; align-items: center; gap: 1rem; background: #161410; border: 1px solid rgba(201,169,110,0.12); padding: 0.9rem 1.2rem; border-radius: 4px; font-size: 0.82rem; }
+    .step-num { width: 26px; height: 26px; border: 1px solid rgba(201,169,110,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #c9a96e; flex-shrink: 0; }
+    .back-btn { display: inline-block; padding: 0.9rem 2rem; background: #c9a96e; color: #0d0c0a; text-decoration: none; font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500; transition: all 0.3s; }
+    .back-btn:hover { background: #e8d4a8; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes pop { 0% { transform: scale(0); opacity: 0; } 70% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+  </style>
+</head>
+<body>
+<div class="bg-lines"></div>
+<div class="card">
+  <div class="checkmark">✓</div>
+  <div class="eyebrow">Request Submitted</div>
+  <h1>Thank You, <em>{{ name }}</em>!</h1>
+  <div class="divider"></div>
+  <p>We've received your consultation request. Our team will contact you via WhatsApp or call within 24 hours.</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div>Our team is reviewing your request</div></div>
+    <div class="step"><div class="step-num">2</div><div>You'll receive a WhatsApp or call within 24 hours</div></div>
+    <div class="step"><div class="step-num">3</div><div>We'll schedule a free site visit</div></div>
+  </div>
+  <a href="/" class="back-btn">← Back to WoodSpace</a>
+</div>
+</body>
+</html>
