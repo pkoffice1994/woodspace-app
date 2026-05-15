@@ -1,0 +1,6 @@
+flask
+twilio
+gunicorn
+streamlit
+pandas
+plotly
