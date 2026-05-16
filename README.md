@@ -1,11 +1,11 @@
 # WoodSpace App
 
-WoodSpace is a Flask-based lead capture website with a separate Streamlit dashboard for internal reporting.
+WoodSpace is a Flask-based lead capture website with an integrated dashboard in the same application.
 
 ## Included Files
 
 - `app.py`: Main website
-- `dashboard.py`: Internal dashboard
+- `dashboard.py`: Compatibility launcher that runs the same Flask app
 - `templates/`: HTML templates
 - `requirements.txt`: Python dependencies
 - `vercel.json`: Vercel deployment config for the Flask app
@@ -27,8 +27,8 @@ http://127.0.0.1:5000
 
 Dashboard:
 
-```bash
-streamlit run dashboard.py
+```txt
+http://127.0.0.1:5000/dashboard
 ```
 
 ## Deploy On Vercel
@@ -43,10 +43,9 @@ Add these values in the Vercel project settings:
 - `TWILIO_TOKEN`
 - `TWILIO_WA_FROM`
 - `OWNER_PHONE`
-- `DASHBOARD_URL`
 
 Use `.env.example` as the reference.
 
 ## Important Note
 
-`leads.csv` is suitable for local development only. On Vercel, file storage is temporary, so lead records are not permanently stored there. For production use, connect a database or Google Sheet.
+The app now stores leads in `woodspace.db`. This works well locally or on hosting with persistent disk storage. On Vercel, file storage is temporary, so online lead records are not guaranteed to remain after cold starts or redeploys. For permanent online lead storage, deploy this app on a platform with persistent storage or connect an external database.

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WoodSpace Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #0d0c0a;
+      --bg-soft: #171410;
+      --panel: rgba(27, 23, 18, 0.94);
+      --border: rgba(201, 169, 110, 0.16);
+      --gold: #c9a96e;
+      --gold-soft: #ecdab4;
+      --text: #f4efe6;
+      --muted: #b4a792;
+      --mint: #7acdb0;
+      --lavender: #b9b0f2;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(201, 169, 110, 0.10), transparent 26%),
+        radial-gradient(circle at left center, rgba(122, 205, 176, 0.08), transparent 18%),
+        linear-gradient(180deg, #0d0c0a 0%, #120f0c 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .page {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 32px 24px 40px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      letter-spacing: 0.28em;
+      color: var(--gold);
+    }
+
+    .topbar-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .topbar-links a {
+      padding: 11px 16px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .hero-card, .notice-card, .metric-card, .panel, .table-card {
+      background: linear-gradient(180deg, rgba(25, 21, 17, 0.98), rgba(16, 14, 11, 0.98));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+    }
+
+    .hero-card {
+      padding: 28px;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 0.76rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 5vw, 4.3rem);
+      line-height: 0.95;
+      margin: 0;
+      color: var(--text);
+    }
+
+    .subtitle {
+      max-width: 720px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 0.96rem;
+      margin-top: 14px;
+    }
+
+    .notice-card {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .notice-title {
+      color: var(--gold-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .notice-copy {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 0.92rem;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      border: 1px solid var(--border);
+      color: var(--gold-soft);
+      background: rgba(201, 169, 110, 0.10);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .metric-card {
+      padding: 22px;
+      min-height: 150px;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .metric-value {
+      margin-top: 14px;
+      color: var(--gold-soft);
+      font-size: 2.35rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .metric-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .panel {
+      padding: 22px;
+    }
+
+    .panel-label {
+      color: var(--gold-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      font-size: 0.88rem;
+      margin-bottom: 8px;
+    }
+
+    .panel-copy {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .chart-wrap {
+      position: relative;
+      min-height: 260px;
+    }
+
+    .table-card {
+      padding: 22px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      color: var(--gold-soft);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+    }
+
+    .section-copy {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 18px;
+    }
+
+    thead th {
+      color: var(--gold-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.73rem;
+      text-align: left;
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tbody td {
+      padding: 14px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      font-size: 0.9rem;
+      vertical-align: top;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .empty {
+      padding: 26px 6px 6px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 1080px) {
+      .hero, .metrics, .charts {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page { padding: 22px 14px 28px; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .section-header { flex-direction: column; align-items: flex-start; }
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tbody td {
+        padding: 8px 0;
+        border-bottom: none;
+      }
+      tbody tr {
+        padding: 14px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <a href="/" class="brand">WOODSPACE</a>
+      <div class="topbar-links">
+        <a href="/">Back to Website</a>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="hero-card">
+        <div class="eyebrow">Lead Intelligence</div>
+        <h1 class="title">Unified Sales Dashboard</h1>
+        <p class="subtitle">
+          Every form submission from the website is captured in the same application and displayed here automatically, so the lead flow and reporting stay in one place.
+        </p>
+      </div>
+      <div class="notice-card">
+        <div>
+          <div class="notice-title">Latest Lead</div>
+          <div class="notice-copy">{{ latest_lead_time }}</div>
+        </div>
+        <div>
+          <div class="notice-title">Storage Mode</div>
+          <div class="notice-copy">
+            {% if storage_mode == "ephemeral" %}
+              This deployment is running on temporary storage. Leads may reset after server restarts.
+            {% else %}
+              Leads are being stored locally in the app database.
+            {% endif %}
+          </div>
+        </div>
+        <span class="status-pill">{{ storage_mode|capitalize }} storage</span>
+      </div>
+    </section>
+
+    <section class="metrics">
+      <div class="metric-card">
+        <div class="metric-label">Total Leads</div>
+        <div class="metric-value">{{ total_leads }}</div>
+        <div class="metric-note">All enquiries captured in the current system.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Today</div>
+        <div class="metric-value">{{ today_leads }}</div>
+        <div class="metric-note">Leads received since midnight.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Last 7 Days</div>
+        <div class="metric-value">{{ week_leads }}</div>
+        <div class="metric-note">Rolling weekly demand volume.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Top Service</div>
+        <div class="metric-value" style="font-size: 1.45rem;">{{ top_service }}</div>
+        <div class="metric-note">Most frequently requested category.</div>
+      </div>
+    </section>
+
+    <section class="charts">
+      <div class="panel">
+        <div class="panel-label">Service Mix</div>
+        <div class="panel-copy">See which service categories generate the strongest inbound demand.</div>
+        <div class="chart-wrap"><canvas id="serviceChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-label">Lead Trend</div>
+        <div class="panel-copy">Track lead volume over time to identify peaks and slower periods.</div>
+        <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-label">Peak Hours</div>
+        <div class="panel-copy">Understand when potential clients are most active.</div>
+        <div class="chart-wrap"><canvas id="hourChart"></canvas></div>
+      </div>
+      <div class="panel">
+        <div class="panel-label">Weekday Performance</div>
+        <div class="panel-copy">Review the distribution of leads across the week.</div>
+        <div class="chart-wrap"><canvas id="weekdayChart"></canvas></div>
+      </div>
+    </section>
+
+    <section class="table-card">
+      <div class="section-header">
+        <div>
+          <div class="section-title">Lead Register</div>
+          <div class="section-copy">Latest website enquiries captured in the shared system.</div>
+        </div>
+      </div>
+
+      {% if leads %}
+        <table>
+          <thead>
+            <tr>
+              <th>Received</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Service</th>
+              <th>Budget</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for lead in leads %}
+              <tr>
+                <td>{{ lead.created_at }}</td>
+                <td>{{ lead.name }}</td>
+                <td>{{ lead.phone }}</td>
+                <td>{{ lead.service or "Unspecified" }}</td>
+                <td>{{ lead.budget or "-" }}</td>
+                <td>{{ lead.message or "-" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <div class="empty">No leads have been captured yet. Submit the website form once and the record will appear here.</div>
+      {% endif %}
+    </section>
+  </div>
+
+  <script>
+    const axisColor = "rgba(180, 167, 146, 0.9)";
+    const gridColor = "rgba(255, 255, 255, 0.07)";
+
+    function baseOptions() {
+      return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          x: {
+            ticks: { color: axisColor },
+            grid: { display: false }
+          },
+          y: {
+            beginAtZero: true,
+            ticks: { color: axisColor, precision: 0 },
+            grid: { color: gridColor }
+          }
+        }
+      };
+    }
+
+    new Chart(document.getElementById("serviceChart"), {
+      type: "bar",
+      data: {
+        labels: {{ service_labels|tojson }},
+        datasets: [{
+          data: {{ service_values|tojson }},
+          backgroundColor: ["#c9a96e", "#d4b887", "#e7d6af", "#8ccfb7", "#b9b0f2", "#d9b5a7"]
+        }]
+      },
+      options: baseOptions()
+    });
+
+    new Chart(document.getElementById("trendChart"), {
+      type: "line",
+      data: {
+        labels: {{ date_labels|tojson }},
+        datasets: [{
+          data: {{ date_values|tojson }},
+          borderColor: "#e8d4a8",
+          backgroundColor: "rgba(201, 169, 110, 0.15)",
+          fill: true,
+          tension: 0.35,
+          pointRadius: 4,
+          pointBackgroundColor: "#f4efe6"
+        }]
+      },
+      options: baseOptions()
+    });
+
+    new Chart(document.getElementById("hourChart"), {
+      type: "line",
+      data: {
+        labels: {{ hour_labels|tojson }},
+        datasets: [{
+          data: {{ hour_values|tojson }},
+          borderColor: "#7acdb0",
+          backgroundColor: "rgba(122, 205, 176, 0.14)",
+          fill: true,
+          tension: 0.35,
+          pointRadius: 4,
+          pointBackgroundColor: "#dff8ef"
+        }]
+      },
+      options: baseOptions()
+    });
+
+    new Chart(document.getElementById("weekdayChart"), {
+      type: "bar",
+      data: {
+        labels: {{ weekday_labels|tojson }},
+        datasets: [{
+          data: {{ weekday_values|tojson }},
+          backgroundColor: ["#7a73b8", "#857ec6", "#9189d3", "#9c95e1", "#a9a1eb", "#b8b0f2", "#c8c1fb"]
+        }]
+      },
+      options: baseOptions()
+    });
+  </script>
+</body>
+</html>

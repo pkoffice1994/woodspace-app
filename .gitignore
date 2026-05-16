@@ -2,6 +2,7 @@ __pycache__/
 *.pyc
 .env
 leads.csv
+woodspace.db
 venv/
 .DS_Store
 .streamlit/
