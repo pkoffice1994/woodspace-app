@@ -43,6 +43,7 @@ Add these values in the Vercel project settings:
 - `TWILIO_TOKEN`
 - `TWILIO_WA_FROM`
 - `OWNER_PHONE`
+- `DASHBOARD_URL`
 
 Use `.env.example` as the reference.
 

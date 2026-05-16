@@ -26,11 +26,15 @@
     .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 10vw, 8rem); font-weight: 300; line-height: 1; letter-spacing: 0.08em; margin-bottom: 1.5rem; }
     .hero-title em { font-style: italic; color: var(--gold-light); }
     .hero-sub { font-size: 0.9rem; opacity: 0.6; letter-spacing: 0.1em; margin-bottom: 3rem; }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
     .hero-cta { display: inline-block; padding: 1rem 2.5rem; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.4s ease; position: relative; overflow: hidden; }
     .hero-cta::before { content: ''; position: absolute; inset: 0; background: var(--gold); transform: translateX(-101%); transition: transform 0.4s ease; }
     .hero-cta:hover::before { transform: translateX(0); }
     .hero-cta:hover { color: var(--dark); }
     .hero-cta span { position: relative; z-index: 1; }
+    .hero-cta.secondary { border-color: rgba(201,169,110,0.35); color: var(--cream); }
+    .hero-cta.secondary::before { background: rgba(201,169,110,0.16); }
+    .hero-cta.secondary:hover { color: var(--cream); }
     .hero-scroll { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.4; animation: bounce 2s infinite; }
     .hero-scroll::after { content: ''; width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); }
     .marquee-strip { background: var(--gold); padding: 0.8rem 0; overflow: hidden; white-space: nowrap; }
@@ -123,6 +127,7 @@
     <a href="#services">Services</a>
     <a href="#gallery">Gallery</a>
     <a href="#contact">Contact</a>
+    <a href="/dashboard">Dashboard</a>
   </div>
 </nav>
 <section class="hero">
@@ -132,7 +137,10 @@
     <div class="hero-eyebrow">Luxury Furniture & Interiors</div>
     <h1 class="hero-title">WOOD<em>SPACE</em></h1>
     <p class="hero-sub">Crafted for the way you live</p>
-    <a href="#contact" class="hero-cta"><span>Get Free Consultation →</span></a>
+    <div class="hero-actions">
+      <a href="#contact" class="hero-cta"><span>Get Free Consultation →</span></a>
+      <a href="/dashboard" class="hero-cta secondary"><span>Open Dashboard</span></a>
+    </div>
   </div>
   <div class="hero-scroll">Scroll</div>
 </section>

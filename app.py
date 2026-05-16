@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request
 
 try:
     from twilio.rest import Client
@@ -21,6 +21,7 @@ TWILIO_SID = os.getenv("TWILIO_SID", "")
 TWILIO_TOKEN = os.getenv("TWILIO_TOKEN", "")
 TWILIO_WA_FROM = os.getenv("TWILIO_WA_FROM", "whatsapp:+14155238886")
 OWNER_PHONE = os.getenv("OWNER_PHONE", "")
+DASHBOARD_URL = os.getenv("DASHBOARD_URL", "").strip()
 
 
 def get_storage_path():
@@ -62,6 +63,17 @@ def save_lead(name, phone, service, budget, message):
 @app.route('/')
 def home():
     return render_template('index.html')
+
+
+@app.route('/dashboard')
+def dashboard_redirect():
+    if DASHBOARD_URL:
+        return redirect(DASHBOARD_URL)
+    return (
+        "<h2>Dashboard URL is not configured yet.</h2>"
+        "<p>Add <code>DASHBOARD_URL</code> in your deployment settings, then reopen this page.</p>"
+        "<a href='/'>Back to Home</a>"
+    )
 
 @app.route('/submit', methods=['POST'])
 def submit():
